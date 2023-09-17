@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/lesterfernandez/go-playground/radix-sort/radix"
 )
 
 func main() {
@@ -14,7 +16,7 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	nums := readNums(scanner)
 
-	nums = radixSort(nums)
+	nums = radix.BinaryRadixSort(nums, 16)
 	writeResult(nums)
 }
 
@@ -36,15 +38,15 @@ func fileFromArgs() *os.File {
 	return f
 }
 
-func readNums(s *bufio.Scanner) []uint32 {
-	nums := make([]uint32, 0)
+func readNums(s *bufio.Scanner) []uint {
+	nums := make([]uint, 0)
 	for s.Scan() {
 		line := s.Text()
 		num, parseErr := strconv.ParseUint(line, 10, 32)
 		if parseErr != nil {
 			panic(parseErr)
 		}
-		nums = append(nums, uint32(num))
+		nums = append(nums, uint(num))
 	}
 	return nums
 }
@@ -54,16 +56,11 @@ func handleInvalidUsage() {
 	os.Exit(1)
 }
 
-func radixSort(nums []uint32) []uint32 {
-	fmt.Println(len(nums))
-	return nums
-}
-
-func writeResult(nums []uint32) {
+func writeResult(nums []uint) {
 	output, _ := os.Create("result.txt")
 	w := bufio.NewWriter(output)
 	defer w.Flush()
-	for num := range nums {
+	for _, num := range nums {
 		fmt.Fprintln(w, num)
 	}
 }

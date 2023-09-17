@@ -26,7 +26,7 @@ func main() {
 
 	dir.Close()
 
-	n, convErr := strconv.ParseUint(os.Args[2], 10, 0)
+	n, convErr := strconv.Atoi(os.Args[2])
 	if convErr != nil {
 		handleInvalidUsage()
 	}
@@ -38,7 +38,7 @@ func main() {
 	w := bufio.NewWriter(file)
 	defer w.Flush()
 
-	for i := uint64(0); i < n; i++ {
+	for i := 0; i < n; i++ {
 		fmt.Fprintln(w, r.Uint32())
 	}
 }

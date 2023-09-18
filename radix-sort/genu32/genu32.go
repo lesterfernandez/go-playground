@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/lesterfernandez/go-playground/radix-sort/radix"
 )
 
 func main() {
@@ -14,24 +16,15 @@ func main() {
 		handleInvalidUsage()
 	}
 
-	dir, dirErr := os.Open(os.Args[1])
-	if dirErr != nil {
-		handleInvalidUsage()
-	}
-
-	stat, _ := dir.Stat()
-	if !stat.IsDir() {
-		handleInvalidUsage()
-	}
-
-	dir.Close()
-
 	n, convErr := strconv.Atoi(os.Args[2])
 	if convErr != nil {
 		handleInvalidUsage()
 	}
 
-	file, _ := os.Create(dir.Name() + "/nums.txt")
+	file, err := radix.CreateFile(os.Args[1], "/nums.txt")
+	if err != nil {
+		handleInvalidUsage()
+	}
 	defer file.Close()
 
 	r := rand.New(rand.NewSource(time.Now().UnixMilli()))

@@ -1,6 +1,9 @@
 package radix
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 func BinaryRadixSort(nums []uint, radix uint16) []uint {
 	if radix < 2 || radix&(radix-1) != 0 {
@@ -32,4 +35,9 @@ func BinaryRadixSort(nums []uint, radix uint16) []uint {
 	}
 
 	return nums
+}
+
+func MsdRadixSort(arr []string) []string {
+	fmt.Println(arr)
+	return arr
 }

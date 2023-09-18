@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -10,7 +11,14 @@ import (
 )
 
 func main() {
-	f := fileFromArgs()
+	if len(os.Args) != 2 {
+		handleInvalidUsage()
+	}
+
+	f, e := fileFromArgs(os.Args[1])
+	if e != nil {
+		handleInvalidUsage()
+	}
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
@@ -20,22 +28,18 @@ func main() {
 	writeResult(nums)
 }
 
-func fileFromArgs() *os.File {
-	if len(os.Args) != 2 {
-		handleInvalidUsage()
-	}
-
-	f, fErr := os.Open(os.Args[1])
+func fileFromArgs(filename string) (*os.File, error) {
+	f, fErr := os.Open(filename)
 	if fErr != nil {
-		handleInvalidUsage()
+		return nil, errors.New("")
 	}
 
 	st, sErr := f.Stat()
 	if sErr != nil || st.IsDir() {
-		handleInvalidUsage()
+		return nil, errors.New("")
 	}
 
-	return f
+	return f, nil
 }
 
 func readNums(s *bufio.Scanner) []uint {
@@ -52,7 +56,7 @@ func readNums(s *bufio.Scanner) []uint {
 }
 
 func handleInvalidUsage() {
-	fmt.Println("Usage: main.go [filename]")
+	fmt.Println("Usage: u32.go [filename]")
 	os.Exit(1)
 }
 

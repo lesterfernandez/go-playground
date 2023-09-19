@@ -26,7 +26,7 @@ func main() {
 		arr = append(arr, scanner.Text())
 	}
 
-	arr = radix.MsdRadixSort(arr)
+	radix.MsdRadixSort(arr)
 	writeResult(arr)
 }
 

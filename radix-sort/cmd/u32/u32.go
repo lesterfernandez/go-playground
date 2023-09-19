@@ -24,7 +24,7 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	nums := readNums(scanner)
 
-	nums = radix.BinaryRadixSort(nums, 16)
+	radix.BinaryRadixSort(nums, 16)
 	writeResult(nums)
 }
 

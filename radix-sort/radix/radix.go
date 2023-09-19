@@ -1,43 +1,23 @@
 package radix
 
 import (
-	"fmt"
-	"math"
+	"errors"
+	"os"
 )
 
-func BinaryRadixSort(nums []uint, radix uint16) []uint {
-	if radix < 2 || radix&(radix-1) != 0 {
-		panic("Radix must be a base of two for binaryRadixSort")
+func CreateFile(dirname string, filename string) (*os.File, error) {
+	dir, dirErr := os.Open(os.Args[1])
+	if dirErr != nil {
+		return nil, errors.New("")
 	}
 
-	mask := uint(radix - 1)
-	shiftIncrement := int(math.Log2(float64(radix)))
-	aux := make([]uint, len(nums))
-
-	for shift := 0; shift < 32; shift += shiftIncrement {
-		count := make([]uint, radix+1)
-
-		for _, num := range nums {
-			count[num>>shift&mask+1]++
-		}
-
-		for i := 1; i <= int(radix); i++ {
-			count[i] += count[i-1]
-		}
-
-		for _, num := range nums {
-			loc := num >> shift & mask
-			aux[count[loc]] = num
-			count[loc]++
-		}
-
-		copy(nums, aux)
+	stat, _ := dir.Stat()
+	if !stat.IsDir() {
+		return nil, errors.New("")
 	}
 
-	return nums
-}
+	dir.Close()
 
-func MsdRadixSort(arr []string) []string {
-	fmt.Println(arr)
-	return arr
+	file, _ := os.Create(dir.Name() + filename)
+	return file, nil
 }

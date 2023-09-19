@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -15,7 +14,7 @@ func main() {
 		handleInvalidUsage()
 	}
 
-	f, e := fileFromArgs(os.Args[1])
+	f, e := radix.OpenFile(os.Args[1])
 	if e != nil {
 		handleInvalidUsage()
 	}
@@ -26,20 +25,6 @@ func main() {
 
 	radix.BinaryRadixSort(nums, 16)
 	writeResult(nums)
-}
-
-func fileFromArgs(filename string) (*os.File, error) {
-	f, fErr := os.Open(filename)
-	if fErr != nil {
-		return nil, errors.New("")
-	}
-
-	st, sErr := f.Stat()
-	if sErr != nil || st.IsDir() {
-		return nil, errors.New("")
-	}
-
-	return f, nil
 }
 
 func readNums(s *bufio.Scanner) []uint {

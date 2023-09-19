@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 
@@ -14,7 +13,7 @@ func main() {
 		handleInvalidUsage()
 	}
 
-	f, e := openFile(os.Args[1])
+	f, e := radix.OpenFile(os.Args[1])
 	if e != nil {
 		handleInvalidUsage()
 	}
@@ -26,22 +25,8 @@ func main() {
 		arr = append(arr, scanner.Text())
 	}
 
-	radix.MsdRadixSort(arr)
+	radix.StringQuickSort(arr)
 	writeResult(arr)
-}
-
-func openFile(filename string) (*os.File, error) {
-	f, fErr := os.Open(filename)
-	if fErr != nil {
-		return nil, errors.New("")
-	}
-
-	st, sErr := f.Stat()
-	if sErr != nil || st.IsDir() {
-		return nil, errors.New("")
-	}
-
-	return f, nil
 }
 
 func handleInvalidUsage() {

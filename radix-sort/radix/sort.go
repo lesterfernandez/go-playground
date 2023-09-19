@@ -25,9 +25,9 @@ func BinaryRadixSort(nums []uint, radix uint16) {
 		}
 
 		for _, num := range nums {
-			pos := num >> shift & mask
-			aux[count[pos]] = num
-			count[pos]++
+			countIdx := num >> shift & mask
+			aux[count[countIdx]] = num
+			count[countIdx]++
 		}
 
 		copy(nums, aux)
@@ -51,9 +51,9 @@ func msdRadixSort(arr []string, aux []string, lo int, hi int, d int, radix int) 
 		count[i] += count[i-1]
 	}
 	for i := lo; i <= hi; i++ {
-		pos := msdRadixChar(arr[i], d) + 1
-		aux[count[pos]] = arr[i]
-		count[pos]++
+		countIdx := msdRadixChar(arr[i], d) + 1
+		aux[count[countIdx]] = arr[i]
+		count[countIdx]++
 	}
 	for i := lo; i <= hi; i++ {
 		arr[i] = aux[i-lo]
@@ -69,4 +69,39 @@ func msdRadixChar(s string, d int) int {
 		return -1
 	}
 	return int(s[d])
+}
+func StringQuickSort(arr []string) {
+	stringQuickSort(arr, 0, len(arr)-1, 0)
+}
+
+func stringQuickSort(arr []string, lo int, hi int, d int) {
+	if hi <= lo {
+		return
+	}
+
+	lt, gt, i := lo, hi, lo+1
+	pivot := msdRadixChar(arr[lt], d)
+	for i <= gt {
+		curr := msdRadixChar(arr[i], d)
+		if curr < pivot {
+			tmp := arr[i]
+			arr[i] = arr[lt]
+			arr[lt] = tmp
+			i++
+			lt++
+		} else if curr > pivot {
+			tmp := arr[i]
+			arr[i] = arr[gt]
+			arr[gt] = tmp
+			gt--
+		} else {
+			i++
+		}
+	}
+
+	stringQuickSort(arr, lo, lt-1, d)
+	if pivot >= 0 {
+		stringQuickSort(arr, lt, gt, d+1)
+	}
+	stringQuickSort(arr, gt+1, hi, d)
 }

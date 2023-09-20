@@ -41,6 +41,6 @@ func main() {
 }
 
 func handleInvalidUsage() {
-	fmt.Println("Usage: genhex.go [directory] [number]")
+	fmt.Fprintln(os.Stderr, "Usage: genhex.go [directory] [number]")
 	os.Exit(1)
 }

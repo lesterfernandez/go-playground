@@ -37,6 +37,6 @@ func main() {
 }
 
 func handleInvalidUsage() {
-	fmt.Println("Usage: genu32.go [directory] [number]")
+	fmt.Fprintln(os.Stderr, "Usage: genu32.go [directory] [number]")
 	os.Exit(1)
 }

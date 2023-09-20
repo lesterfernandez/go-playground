@@ -30,7 +30,7 @@ func main() {
 }
 
 func handleInvalidUsage() {
-	fmt.Println("Usage: hex.go [filename]")
+	fmt.Fprintln(os.Stderr, "Usage: hex.go [filename]")
 	os.Exit(1)
 }
 

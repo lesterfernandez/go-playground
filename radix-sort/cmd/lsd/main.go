@@ -41,7 +41,7 @@ func readNums(s *bufio.Scanner) []uint {
 }
 
 func handleInvalidUsage() {
-	fmt.Println("Usage: u32.go [filename]")
+	fmt.Fprintln(os.Stderr, "Usage: u32.go [filename]")
 	os.Exit(1)
 }
 

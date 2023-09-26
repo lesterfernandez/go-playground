@@ -84,15 +84,11 @@ func stringQuickSort(arr []string, lo int, hi int, d int) {
 	for i <= gt {
 		curr := msdRadixChar(arr[i], d)
 		if curr < pivot {
-			tmp := arr[i]
-			arr[i] = arr[lt]
-			arr[lt] = tmp
+			arr[i], arr[lt] = arr[lt], arr[i]
 			i++
 			lt++
 		} else if curr > pivot {
-			tmp := arr[i]
-			arr[i] = arr[gt]
-			arr[gt] = tmp
+			arr[i], arr[gt] = arr[gt], arr[i]
 			gt--
 		} else {
 			i++
